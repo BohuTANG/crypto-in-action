@@ -1,19 +1,26 @@
 use std::mem;
 
-/// gcd(a,b)
-/// Euclidean algorithm with non-recursive
+/// The function `gcd` implements Euclidean algorithm with non-recursive
 ///
-/// case[1]
-/// gcd(25,10)
-/// 25 = 2*10 + 5
-/// 10 = 2*5  + 0
-///
-/// case[2]
+/// ```text
+/// Algorithm:
 /// gcd(37,14)
 /// 37 = 14(2) + 9
 /// 14 = 9(1)  + 5
 /// 9  = 5(1)  + 4
 /// 5  = 4(1)  + 1
+/// ```
+/// # Examples
+///
+/// ```rust
+/// use algebra::gcd;
+///
+/// fn main() {
+///     let g = gcd::gcd(37, 14);
+///     println!("{}", g);
+/// }
+/// ```
+///
 pub fn gcd(mut a: i8, mut b: i8) -> i8 {
     while b != 0 {
         a %= b;
@@ -24,22 +31,24 @@ pub fn gcd(mut a: i8, mut b: i8) -> i8 {
     return a;
 }
 
-/// Finds the greatest common denominator of two integers *a* and *b*, and two
-/// integers *x* and *y* such that *ax* + *by* is the greatest common
-/// denominator of *a* and *b* (Bézout coefficients).
+/// The function `xgcd` implements Extended Euclidean algorithm with non-recursive
 ///
-/// This function is an implementation of the [extended Euclidean
-/// algorithm](https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm).
-///
-///
+/// Given integers a and b, compute integers a and b such that
+/// ```text
+/// a * x + b * y == gcd(a, b).
 /// ```
-/// let (g, x, y) = xgcd(37, 14);
 ///
-/// assert_eq!(g, 1);
-/// assert_eq!(x, -3);
-/// assert_eq!(y, 8);
-/// assert_eq!((a * x) + (b * y), g);
+/// # Examples
+///
+/// ```rust
+/// use algebra::gcd;
+///
+/// fn main() {
+///     let (g, x, y) = gcd::xgcd(37, 14);
+///     println!("{},{},{}", g,x,y);
+/// }
 /// ```
+///
 pub fn xgcd(a: i8, b: i8) -> (i8, i8, i8) {
     let (mut s, mut s_old) = (0, 1);
     let (mut t, mut t_old) = (1, 0);

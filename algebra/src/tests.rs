@@ -1,6 +1,7 @@
 #[cfg(test)]
 pub mod tests {
     use crate::gcd;
+    use crate::modinv;
 
     #[test]
     fn gcd_test() {
@@ -18,5 +19,18 @@ pub mod tests {
 
         let (g, x, y) = gcd::xgcd(10, 25);
         assert_eq!(x * 10 + y * 25, g);
+    }
+
+    #[test]
+    fn modinv_test() {
+        {
+            let x = modinv::mod_inv(14, 37);
+            assert_eq!(x, Some(8));
+        }
+
+        {
+            let x = modinv::mod_inv(14, 38);
+            assert_eq!(x, None);
+        }
     }
 }
