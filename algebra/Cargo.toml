@@ -1,0 +1,6 @@
+[package]
+name = "arithmetic"
+version = "0.1.0"
+authors = ["BohuTANG <overred.shuttler@gmail.com>"]
+
+[dependencies]
