@@ -1,5 +1,5 @@
 [package]
-name = "algebra"
+name = "fields"
 version = "0.1.0"
 authors = ["BohuTANG <overred.shuttler@gmail.com>"]
 license = "BSD"
@@ -7,3 +7,4 @@ publish = false
 edition = "2018"
 
 [dependencies]
+algebra= {path = "../algebra"}

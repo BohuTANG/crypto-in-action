@@ -1,3 +1,6 @@
  
 [workspace]
-members = ["algebra"]
+members = [
+    "algebra",
+    "fields",
+    ]

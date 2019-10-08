@@ -1,3 +1,6 @@
+// Copyright (c) BohuTANG
+// Code is licensed with BSD
+
 use std::mem;
 
 /// The function `gcd` implements Euclidean algorithm with non-recursive

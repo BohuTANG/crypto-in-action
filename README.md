@@ -1,6 +1,11 @@
 # Crypto In Action
 
-algebra arithmetic, finite fields, elliptic curves, zero-knowledge.
+- [x] Algebra Arithmetic
+- [ ] Finite Fields
+- [ ] Discrete Logarithms
+- [ ] Elliptic Curves
+- [ ] ECDH
+- [ ] Signatures
+- [ ] Zero-Knowledge
 
-In Code, we Trust.
-
+In Code, We Trust.
