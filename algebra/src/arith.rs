@@ -3,7 +3,7 @@
 
 use crate::gcd;
 
-///  The function `mod_add` computes two numbers sum in modulo arithmetic.
+///  Computes two numbers sum in modulo arithmetic.
 ///
 /// ```text
 /// a + b (mod m)
@@ -25,13 +25,13 @@ pub fn mod_add(a: i8, b: i8, m: i8) -> i8 {
     let b1 = b % m;
 
     if b1 > (m - a1) {
-        return b1 - (m - a1);
+        b1 - (m - a1)
     } else {
-        return (a1 + b1 + m) % m;
+        (a1 + b1 + m) % m
     }
 }
 
-///  The function `mod_sub` computes two numbers subtract in modulo arithmetic.
+///  Computes two numbers subtract in modulo arithmetic.
 ///
 /// ```text
 /// a - b (mod m)
@@ -49,10 +49,10 @@ pub fn mod_add(a: i8, b: i8, m: i8) -> i8 {
 /// ```
 ///
 pub fn mod_sub(a: i8, b: i8, m: i8) -> i8 {
-    return mod_add(a, -b, m);
+    mod_add(a, -b, m)
 }
 
-///  The function `mod_mul` computes two numbers product in modulo arithmetic.
+///  Computes two numbers product in modulo arithmetic.
 ///
 /// ```text
 /// a * b (mod m)
@@ -75,10 +75,10 @@ pub fn mod_mul(a: i8, b: i8, m: i8) -> i8 {
         res += a;
         res %= m;
     }
-    return res;
+    res
 }
 
-///  The function `mod_div` computes two numbers division in modulo arithmetic.
+///  Computes two numbers division in modulo arithmetic.
 ///
 /// ```text
 /// a / b (mod m)
@@ -97,10 +97,10 @@ pub fn mod_mul(a: i8, b: i8, m: i8) -> i8 {
 ///
 pub fn mod_div(a: i8, b: i8, m: i8) -> i8 {
     let inv = mod_inv(b, m);
-    return mod_mul(a, inv, m);
+    mod_mul(a, inv, m)
 }
 
-///  The function `mod_inv` computes the inverse of x in modulo arithmetic.
+///  Computes the inverse of x in modulo arithmetic.
 ///
 /// ```text
 /// x = a ^ -1 (mod m)
@@ -128,11 +128,10 @@ pub fn mod_div(a: i8, b: i8, m: i8) -> i8 {
 pub fn mod_inv(a: i8, m: i8) -> i8 {
     let (g, x, _) = gcd::xgcd(a, m);
     assert!(g == 1);
-
-    return (x + m) % m;
+    (x + m) % m
 }
 
-///  The function `mod_mul` computes exponention in modulo arithmetic.
+///  Computes exponention in modulo arithmetic.
 ///
 /// ```text
 /// a ^ b (mod m)
@@ -154,5 +153,5 @@ pub fn mod_exp(base: i8, exponent: i8, m: i8) -> i8 {
     for _ in 1..exponent {
         res = mod_mul(res, base, m);
     }
-    return res;
+    res
 }

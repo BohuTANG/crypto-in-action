@@ -3,7 +3,7 @@
 
 use std::mem;
 
-/// The function `gcd` implements Euclidean algorithm with non-recursive
+/// Implements Euclidean algorithm with non-recursive
 ///
 /// ```text
 /// Algorithm:
@@ -27,14 +27,12 @@ use std::mem;
 pub fn gcd(mut a: i8, mut b: i8) -> i8 {
     while b != 0 {
         a %= b;
-        let tmp = a;
-        a = b;
-        b = tmp;
+        std::mem::swap(&mut a, &mut b)
     }
-    return a;
+    a
 }
 
-/// The function `xgcd` implements Extended Euclidean algorithm with non-recursive
+/// Implements Extended Euclidean algorithm with non-recursive
 ///
 /// Given integers a and b, compute integers a and b such that
 /// ```text
@@ -53,17 +51,18 @@ pub fn gcd(mut a: i8, mut b: i8) -> i8 {
 /// ```
 ///
 pub fn xgcd(a: i8, b: i8) -> (i8, i8, i8) {
-    let (mut s, mut s_old) = (0, 1);
-    let (mut t, mut t_old) = (1, 0);
-    let (mut r, mut r_old) = (b, a);
-    while r != 0 {
-        let quotient = r_old / r;
-        r_old -= quotient * r;
-        s_old -= quotient * s;
-        t_old -= quotient * t;
-        mem::swap(&mut r, &mut r_old);
-        mem::swap(&mut s, &mut s_old);
-        mem::swap(&mut t, &mut t_old);
+    let (mut sj, mut sj_old) = (0, 1);
+    let (mut tj, mut tj_old) = (1, 0);
+    let (mut rj, mut rj_old) = (b, a);
+
+    while rj != 0 {
+        let quotient = rj_old / rj;
+        rj_old -= quotient * rj;
+        sj_old -= quotient * sj;
+        tj_old -= quotient * tj;
+        mem::swap(&mut rj, &mut rj_old);
+        mem::swap(&mut sj, &mut sj_old);
+        mem::swap(&mut tj, &mut tj_old);
     }
-    (r_old, s_old, t_old) // (gcd, coeff_a, coeff_b)
+    (rj_old, sj_old, tj_old) // (gcd, coeff_a, coeff_b)
 }
