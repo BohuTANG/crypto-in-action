@@ -19,7 +19,6 @@ use crate::gcd;
 ///     println!("{:?}", x);
 /// }
 /// ```
-///
 pub fn mod_add(a: i8, b: i8, m: i8) -> i8 {
     let a1 = a % m;
     let b1 = b % m;
@@ -47,7 +46,6 @@ pub fn mod_add(a: i8, b: i8, m: i8) -> i8 {
 ///     println!("{:?}", x);
 /// }
 /// ```
-///
 pub fn mod_sub(a: i8, b: i8, m: i8) -> i8 {
     mod_add(a, -b, m)
 }
@@ -68,7 +66,6 @@ pub fn mod_sub(a: i8, b: i8, m: i8) -> i8 {
 ///     println!("{:?}", x);
 /// }
 /// ```
-///
 pub fn mod_mul(a: i8, b: i8, m: i8) -> i8 {
     let mut res = 0;
     for _ in 1..=b {
@@ -94,7 +91,6 @@ pub fn mod_mul(a: i8, b: i8, m: i8) -> i8 {
 ///     println!("{:?}", x);
 /// }
 /// ```
-///
 pub fn mod_div(a: i8, b: i8, m: i8) -> i8 {
     let inv = mod_inv(b, m);
     mod_mul(a, inv, m)
@@ -124,7 +120,6 @@ pub fn mod_div(a: i8, b: i8, m: i8) -> i8 {
 ///     println!("{:?}", x);
 /// }
 /// ```
-///
 pub fn mod_inv(a: i8, m: i8) -> i8 {
     let (g, x, _) = gcd::xgcd(a, m);
     assert!(g == 1);
@@ -147,7 +142,6 @@ pub fn mod_inv(a: i8, m: i8) -> i8 {
 ///     println!("{:?}", x);
 /// }
 /// ```
-///
 pub fn mod_exp(base: i8, exponent: i8, m: i8) -> i8 {
     let mut res = base;
     for _ in 1..exponent {

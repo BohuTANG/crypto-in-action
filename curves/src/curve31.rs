@@ -3,20 +3,21 @@
 
 use fields::field;
 
-#[derive(PartialEq, Debug, Copy, Clone)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Point {
     pub x: i8,
     pub y: i8,
 }
 
 /// Clock curve with Fp31.
-/// x^2 + y^2 = 1
-#[derive(Debug)]
+/// Equation:
+/// x^2 + y^2 = 1 over Fp31.
+#[derive(Debug, Copy, Clone)]
 pub struct Curve31 {
-    b: i8,
-    primer: i8,
-    base: Point,
-    field: field::Field,
+    pub b: i8,
+    pub base: Point,
+    pub primer: i8,
+    pub field: field::Field,
 }
 
 impl Default for Curve31 {
@@ -51,8 +52,7 @@ impl Curve31 {
     ///     println!("{:?}", p3);
     /// }
     /// ```
-    ///
-    pub fn scalar_add(&self, p1: Point, p2: Point) -> Point {
+    pub fn scalar_add(self, p1: Point, p2: Point) -> Point {
         let x1y2 = self.field.mul(p1.x, p2.y);
         let x2y1 = self.field.mul(p2.x, p1.y);
         let x3 = self.field.add(x1y2, x2y1);
@@ -63,7 +63,7 @@ impl Curve31 {
         Point { x: x3, y: y3 }
     }
 
-    ///  Returns k*(x1,y1) where k is integer.
+    ///  Returns k*(x1,y1) where k is integer use double-and-add algothrim.
     ///
     /// # Examples
     ///
@@ -77,18 +77,39 @@ impl Curve31 {
     ///     println!("{:?}", p2);
     /// }
     /// ```
-    ///
-    pub fn scalar_mul(&self, p: Point, k: i8) -> Point {
+    pub fn scalar_mul(self, p: Point, k: i8) -> Point {
         assert!(k != 0);
+        let mut j = k >> 1;
         let mut r = Point { x: p.x, y: p.y };
-        if k == 1 {
-            r
+        while j > 0 {
+            r = self.scalar_double(r);
+            j >>= 1;
+        }
+
+        // if k is odd.
+        if (k & 1) == 1 {
+            self.scalar_add(p, r)
         } else {
-            for _ in 1..k {
-                r = self.scalar_add(r, p);
-            }
             r
         }
+    }
+
+    ///  Returns the sum of (x1,y1) and (x1,y1).
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use curves::curve31;
+    ///
+    /// fn main() {
+    ///     let curve = curve31::Curve31::default();
+    ///     let p1 = curve31::Point { x: 1, y: 0 };
+    ///     let pp = curve.scalar_double(p1);
+    ///     println!("{:?}", pp);
+    /// }
+    /// ```
+    pub fn scalar_double(self, p: Point) -> Point {
+        self.scalar_add(p, p)
     }
 
     ///  Returns k*(base point) where k is integer.
@@ -105,9 +126,28 @@ impl Curve31 {
     ///     println!("{:?}", p2);
     /// }
     /// ```
-    ///
-    pub fn scalar_basemul(&self, k: i8) -> Point {
+    pub fn scalar_basemul(self, k: i8) -> Point {
         self.scalar_mul(self.base, k)
+    }
+
+    ///  Checks the point p is on the curve or not.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use curves::curve31;
+    ///
+    /// fn main() {
+    ///     let curve = curve31::Curve31::default();
+    ///     let p1 = curve31::Point { x: 2, y: 20 };
+    ///     let res = curve.is_on_curve(p1);
+    ///     println!("{:?}", res);
+    /// }
+    /// ```
+    pub fn is_on_curve(self, p: Point) -> bool {
+        let xx = self.field.mul(p.x, p.x);
+        let yy = self.field.mul(p.y, p.y);
+        self.field.add(xx, yy) == self.b
     }
 
     ///  Returns y coordinate if exists, otherwise None.
@@ -123,8 +163,7 @@ impl Curve31 {
     ///     println!("{:?}", y);
     /// }
     /// ```
-    ///
-    pub fn y(&self, x: i8) -> Option<i8> {
+    pub fn y(self, x: i8) -> Option<i8> {
         let xx = self.field.mul(x, x);
         let yy = self.primer - xx + self.b;
         self.field.sqrt(yy)

@@ -4,7 +4,7 @@
 use algebra::arith;
 
 /// Field with prime.
-#[derive(Debug)]
+#[derive(Debug, Copy, Clone)]
 pub struct Field {
     primer: i8,
 }
@@ -30,8 +30,7 @@ impl Field {
     ///     println!("{:?}", fp.add(15,33));
     /// }
     /// ```
-    ///
-    pub fn add(&self, a: i8, b: i8) -> i8 {
+    pub fn add(self, a: i8, b: i8) -> i8 {
         arith::mod_add(a, b, self.primer)
     }
 
@@ -51,8 +50,7 @@ impl Field {
     ///     println!("{:?}", fp.sub(15,33));
     /// }
     /// ```
-    ///
-    pub fn sub(&self, a: i8, b: i8) -> i8 {
+    pub fn sub(self, a: i8, b: i8) -> i8 {
         arith::mod_sub(a, b, self.primer)
     }
 
@@ -72,8 +70,7 @@ impl Field {
     ///     println!("{:?}", fp.mul(15,33));
     /// }
     /// ```
-    ///
-    pub fn mul(&self, a: i8, b: i8) -> i8 {
+    pub fn mul(self, a: i8, b: i8) -> i8 {
         arith::mod_mul(a, b, self.primer)
     }
 
@@ -100,8 +97,8 @@ impl Field {
     ///     println!("{:?}", fp.sqrt(28));
     /// }
     /// ```
-    ///
-    pub fn sqrt(&self, a: i8) -> Option<i8> {
+    pub fn sqrt(self, a: i8) -> Option<i8> {
+        let a = a % self.primer;
         if a == 0 {
             return Some(0);
         } else if self.primer == 2 {
@@ -133,8 +130,7 @@ impl Field {
     ///     println!("{:?}", fp.legendre_symbol(28));
     /// }
     /// ```
-    ///
-    pub fn legendre_symbol(&self, a: i8) -> i8 {
+    pub fn legendre_symbol(self, a: i8) -> i8 {
         let p1 = self.primer - 1;
         let ls = arith::mod_exp(a, p1 / 2, self.primer);
         if ls == p1 {
