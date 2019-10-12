@@ -13,16 +13,16 @@ pub struct Point {
 /// Equation:
 /// x^2 + y^2 = 1 over Fp31.
 #[derive(Debug, Copy, Clone)]
-pub struct Curve31 {
+pub struct ClockCurve {
     pub b: i8,
     pub base: Point,
     pub primer: i8,
     pub field: field::Field,
 }
 
-impl Default for Curve31 {
+impl Default for ClockCurve {
     fn default() -> Self {
-        Curve31 {
+        ClockCurve {
             b: 1,
             primer: 31,
             base: Point { x: 2, y: 20 },
@@ -31,23 +31,23 @@ impl Default for Curve31 {
     }
 }
 
-impl Curve31 {
+impl ClockCurve {
     ///  Returns the sum of (x1,y1) and (x2,y2).
     ///
     /// ```text
     /// x^2 + y^2 = 1 addtion formual:
-    /// (x3,y3) = (x1,y1) + (x2 + y2) = (x1*y2 + x2*y1,y2*y1 - x1*x2)
+    /// (x3,y3) = (x1,y1) + (x2,y2) = (x1*y2 + x2*y1,y2*y1 - x1*x2)
     /// ```
     ///
     /// # Examples
     ///
     /// ```rust
-    /// use curves::curve31;
+    /// use curves::clockcurve;
     ///
     /// fn main() {
-    ///     let curve = curve31::Curve31::default();
-    ///     let p1 = curve31::Point { x: 1, y: 0 };
-    ///     let p2 = curve31::Point { x: 0, y: 1 };
+    ///     let curve = clockcurve::ClockCurve::default();
+    ///     let p1 = clockcurve::Point { x: 1, y: 0 };
+    ///     let p2 = clockcurve::Point { x: 0, y: 1 };
     ///     let p3 = curve.scalar_add(p1, p2);
     ///     println!("{:?}", p3);
     /// }
@@ -63,16 +63,39 @@ impl Curve31 {
         Point { x: x3, y: y3 }
     }
 
-    ///  Returns k*(x1,y1) where k is integer use double-and-add algothrim.
+    ///  Returns the sum of (x1,y1) and (x2,-y2).
     ///
     /// # Examples
     ///
     /// ```rust
-    /// use curves::curve31;
+    /// use curves::clockcurve;
     ///
     /// fn main() {
-    ///     let curve = curve31::Curve31::default();
-    ///     let p1 = curve31::Point { x: 2, y: 20 };
+    ///     let curve = clockcurve::ClockCurve::default();
+    ///     let p1 = clockcurve::Point { x: 1, y: 0 };
+    ///     let p2 = clockcurve::Point { x: 0, y: 1 };
+    ///     let p3 = curve.scalar_sub(p1, p2);
+    ///     println!("{:?}", p3);
+    /// }
+    /// ```
+    pub fn scalar_sub(self, p1: Point, p2: Point) -> Point {
+        let p2_neg = Point {
+            x: p2.x,
+            y: self.primer - p2.y,
+        };
+        self.scalar_add(p1, p2_neg)
+    }
+
+    ///  Returns k*(x1,y1) where k is interge use double-and-add algothrim.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use curves::clockcurve;
+    ///
+    /// fn main() {
+    ///     let curve = clockcurve::ClockCurve::default();
+    ///     let p1 = clockcurve::Point { x: 2, y: 20 };
     ///     let p2 = curve.scalar_mul(p1, 3);
     ///     println!("{:?}", p2);
     /// }
@@ -99,11 +122,11 @@ impl Curve31 {
     /// # Examples
     ///
     /// ```rust
-    /// use curves::curve31;
+    /// use curves::clockcurve;
     ///
     /// fn main() {
-    ///     let curve = curve31::Curve31::default();
-    ///     let p1 = curve31::Point { x: 1, y: 0 };
+    ///     let curve = clockcurve::ClockCurve::default();
+    ///     let p1 = clockcurve::Point { x: 1, y: 0 };
     ///     let pp = curve.scalar_double(p1);
     ///     println!("{:?}", pp);
     /// }
@@ -117,11 +140,11 @@ impl Curve31 {
     /// # Examples
     ///
     /// ```rust
-    /// use curves::curve31;
+    /// use curves::clockcurve;
     ///
     /// fn main() {
-    ///     let curve = curve31::Curve31::default();
-    ///     let p1 = curve31::Point { x: 2, y: 20 };
+    ///     let curve = clockcurve::ClockCurve::default();
+    ///     let p1 = clockcurve::Point { x: 2, y: 20 };
     ///     let p2 = curve.scalar_mul(p1, 3);
     ///     println!("{:?}", p2);
     /// }
@@ -135,11 +158,11 @@ impl Curve31 {
     /// # Examples
     ///
     /// ```rust
-    /// use curves::curve31;
+    /// use curves::clockcurve;
     ///
     /// fn main() {
-    ///     let curve = curve31::Curve31::default();
-    ///     let p1 = curve31::Point { x: 2, y: 20 };
+    ///     let curve = clockcurve::ClockCurve::default();
+    ///     let p1 = clockcurve::Point { x: 2, y: 20 };
     ///     let res = curve.is_on_curve(p1);
     ///     println!("{:?}", res);
     /// }
@@ -155,10 +178,10 @@ impl Curve31 {
     /// # Examples
     ///
     /// ```rust
-    /// use curves::curve31;
+    /// use curves::clockcurve;
     ///
     /// fn main() {
-    ///     let curve = curve31::Curve31::default();
+    ///     let curve = clockcurve::ClockCurve::default();
     ///     let y = curve.y(2);
     ///     println!("{:?}", y);
     /// }

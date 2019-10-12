@@ -4,4 +4,5 @@ members = [
     "algebra",
     "fields",
     "curves",
+    "protocols",
     ]

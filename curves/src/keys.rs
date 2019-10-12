@@ -1,13 +1,12 @@
 // Copyright (c) BohuTANG
 // Code is licensed with BSD
 
-use crate::curve31;
+use crate::clockcurve;
 
 #[derive(Clone, Copy, Debug)]
 pub struct PublicKey {
-    pub x: i8,
-    pub y: i8,
-    pub curve: curve31::Curve31,
+    pub point: clockcurve::Point,
+    pub curve: clockcurve::ClockCurve,
 }
 
 impl PublicKey {
@@ -28,27 +27,26 @@ impl PublicKey {
     ///     println!("{:?}", publickey.serialize());
     /// }
     pub fn serialize(self) -> [i8; 2] {
-        [self.x, self.y]
+        [self.point.x, self.point.y]
     }
 }
 
 #[derive(Clone, Copy, Debug)]
 pub struct PrivateKey {
-    key: i8,
+    pub key: i8,
     publickey: PublicKey,
-    curve: curve31::Curve31,
+    curve: clockcurve::ClockCurve,
 }
 
 impl PrivateKey {
     pub fn new(k: i8) -> Self {
-        let cuv31 = curve31::Curve31::default();
+        let cuv31 = clockcurve::ClockCurve::default();
         let p = cuv31.scalar_basemul(k);
         PrivateKey {
             key: k,
             curve: cuv31,
             publickey: PublicKey {
-                x: p.x,
-                y: p.y,
+                point: p,
                 curve: cuv31,
             },
         }

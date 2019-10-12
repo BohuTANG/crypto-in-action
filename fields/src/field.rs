@@ -74,10 +74,30 @@ impl Field {
         arith::mod_mul(a, b, self.primer)
     }
 
-    ///  Computes the quadratic residue (mod primer) of 'a'.
+    ///  Computes exponention in finite field.
     ///
     /// ```text
-    /// Returns None if has no squre root.
+    /// a ^ b (mod m)
+    /// ```
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use fields::field;
+    ///
+    /// fn main() {
+    ///     let fp = field::Field::new(37);
+    ///     println!("{:?}", fp.exp(15,33));
+    /// }
+    /// ```
+    pub fn exp(self, base: i8, exponent: i8) -> i8 {
+        arith::mod_exp(base, exponent, self.primer)
+    }
+
+    ///  Computes the square root (mod primer) of 'a'.
+    ///
+    /// ```text
+    /// Returns None if has no square root.
     /// ```
     ///
     /// ```text
@@ -132,7 +152,7 @@ impl Field {
     /// ```
     pub fn legendre_symbol(self, a: i8) -> i8 {
         let p1 = self.primer - 1;
-        let ls = arith::mod_exp(a, p1 / 2, self.primer);
+        let ls = arith::mod_exp(a, p1 >> 1, self.primer);
         if ls == p1 {
             -1
         } else {

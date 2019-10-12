@@ -3,5 +3,3 @@
 
 pub mod arith;
 pub mod gcd;
-
-pub mod tests;

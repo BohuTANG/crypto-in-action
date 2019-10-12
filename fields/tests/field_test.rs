@@ -3,7 +3,7 @@
 
 #[cfg(test)]
 pub mod tests {
-    use crate::field;
+    use fields::field;
 
     #[test]
     fn fields_field_test() {
@@ -28,6 +28,12 @@ pub mod tests {
         {
             let x = fp37.mul(18, 19);
             assert_eq!(x, 9);
+        }
+
+        // Exp test.
+        {
+            let x = fp37.exp(18, 11);
+            assert_eq!(x, 17);
         }
     }
 
