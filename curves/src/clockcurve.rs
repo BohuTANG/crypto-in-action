@@ -79,14 +79,31 @@ impl ClockCurve {
     /// }
     /// ```
     pub fn scalar_sub(self, p1: Point, p2: Point) -> Point {
-        let p2_neg = Point {
-            x: p2.x,
-            y: self.primer - p2.y,
-        };
-        self.scalar_add(p1, p2_neg)
+        self.scalar_add(p1, self.point_neg(p2))
     }
 
-    ///  Returns k*(x1,y1) where k is interge use double-and-add algothrim.
+    ///  Returns the neg(x1,y1) = (-x1,y1).
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use curves::clockcurve;
+    ///
+    /// fn main() {
+    ///     let curve = clockcurve::ClockCurve::default();
+    ///     let p1 = clockcurve::Point { x: 2, y: 20 };
+    ///     let pneg = curve.point_neg(p1);
+    ///     println!("{:?}", pneg);
+    /// }
+    /// ```
+    pub fn point_neg(self, p1: Point) -> Point {
+        Point {
+            x: self.field.sub(self.primer, p1.x),
+            y: p1.y,
+        }
+    }
+
+    ///  Returns k*(x1,y1) where k is interge .
     ///
     /// # Examples
     ///
@@ -101,20 +118,18 @@ impl ClockCurve {
     /// }
     /// ```
     pub fn scalar_mul(self, p: Point, k: i8) -> Point {
-        assert!(k != 0);
-        let mut j = k >> 1;
-        let mut r = Point { x: p.x, y: p.y };
-        while j > 0 {
-            r = self.scalar_double(r);
-            j >>= 1;
+        let mut k1 = k;
+        let mut rp = Point { x: p.x, y: p.y };
+        if k1 == 0 {
+            k1 = self.primer + 1;
         }
 
-        // if k is odd.
-        if (k & 1) == 1 {
-            self.scalar_add(p, r)
-        } else {
-            r
+        if (k1 >> 1) > 0 {
+            for _ in 1..k1 {
+                rp = self.scalar_add(rp, p);
+            }
         }
+        rp
     }
 
     ///  Returns the sum of (x1,y1) and (x1,y1).

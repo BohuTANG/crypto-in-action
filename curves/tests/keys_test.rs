@@ -12,5 +12,6 @@ pub mod tests {
         let publickey = privatekey.publickey();
         assert_eq!(publickey.point, clockcurve::Point { x: 18, y: 24 });
         println!("({:?},{:?})", privatekey.serialize(), publickey.serialize());
+        // ([0, 2],[18, 24])
     }
 }

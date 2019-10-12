@@ -5,4 +5,5 @@ members = [
     "fields",
     "curves",
     "protocols",
+    "subgroups",
     ]

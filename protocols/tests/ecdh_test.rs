@@ -22,9 +22,14 @@ pub mod tests {
 
         let A = clockcurve.scalar_basemul(a);
         let B = clockcurve.scalar_basemul(b);
+        println!("{:?}, {:?}", A, B);
+        // Point { x: 30, y: 0 }, Point { x: 18, y: 24 }
 
-        let sa = clockcurve.scalar_mul(A, a);
-        let sb = clockcurve.scalar_mul(B, b);
+        let sa = clockcurve.scalar_mul(A, b);
+        let sb = clockcurve.scalar_mul(B, a);
+
+        println!("{:?}, {:?}", sa, sb);
+        // Point { x: 0, y: 30 }, Point { x: 0, y: 30 }
 
         assert_eq!(sa, sb);
     }

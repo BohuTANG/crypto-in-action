@@ -18,12 +18,14 @@
   - [x] Legendre Symbol
 - [x] Elliptic Curves
   - [x] ClockCurve
-- [ ] Discrete Logarithms
 - [x] Protocols
   - [x] ECDH
   - [x] SPAKE2
   - [ ] Shamir Secret Sharing
-- [ ] Subgroups
+- [x] SubGroups
+  - [x] Cofactor
+  - [x] SubGroup Order
+  - [x] Low Order Attack
 - [ ] Signatures
   - [ ] ECDSA
   - [ ] Schnorr
