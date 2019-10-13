@@ -105,35 +105,6 @@ impl ClockCurve {
         }
     }
 
-    /// Returns k*(x1,y1) where k is interge .
-    ///
-    /// # Examples
-    ///
-    /// ```rust
-    /// use curves::clockcurve;
-    ///
-    /// fn main() {
-    ///     let curve = clockcurve::ClockCurve::default();
-    ///     let p1 = clockcurve::Point { x: 2, y: 20 };
-    ///     let p2 = curve.scalar_mul(p1, 3);
-    ///     println!("{:?}", p2);
-    /// }
-    /// ```
-    pub fn scalar_mul(self, p: Point, k: i8) -> Point {
-        let mut k1 = k;
-        let mut rp = Point { x: p.x, y: p.y };
-        if k1 == 0 {
-            k1 = self.primer + 1;
-        }
-
-        if (k1 >> 1) > 0 {
-            for _ in 1..k1 {
-                rp = self.scalar_add(rp, p);
-            }
-        }
-        rp
-    }
-
     /// Returns the sum of (x1,y1) and (x1,y1).
     ///
     /// # Examples
@@ -150,6 +121,45 @@ impl ClockCurve {
     /// ```
     pub fn scalar_double(self, p: Point) -> Point {
         self.scalar_add(p, p)
+    }
+
+    /// Returns k*(x1,y1) where k is interge using Montgomery ladder for constant time.
+    /// https://en.wikipedia.org/wiki/Elliptic_curve_point_multiplication#Montgomery_ladder
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use curves::clockcurve;
+    ///
+    /// fn main() {
+    ///     let curve = clockcurve::ClockCurve::default();
+    ///     let p1 = clockcurve::Point { x: 2, y: 20 };
+    ///     let p2 = curve.scalar_mul(p1, 3);
+    ///     println!("{:?}", p2);
+    /// }
+    /// ```
+    pub fn scalar_mul(self, p: Point, k: i8) -> Point {
+        assert!(k != 0);
+        let mut r0 = self.neutral;
+        let mut r1 = Point { x: p.x, y: p.y };
+
+        let mut bits = 0;
+        let mut k1 = k;
+        while k1 > 0 {
+            bits += 1;
+            k1 >>= 1;
+        }
+
+        for i in (0..bits).rev() {
+            if (k >> i) & 0x01 == 0 {
+                r1 = self.scalar_add(r0, r1);
+                r0 = self.scalar_double(r0);
+            } else {
+                r0 = self.scalar_add(r0, r1);
+                r1 = self.scalar_double(r1);
+            }
+        }
+        r0
     }
 
     /// Returns k*(base point) where k is integer.
