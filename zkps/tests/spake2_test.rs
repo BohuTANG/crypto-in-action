@@ -19,7 +19,7 @@ pub mod tests {
     /// B2. Bob selects 𝑦 as secert key and calculates 𝑌 = 𝑔^𝑦 𝑚𝑜𝑑 𝑝
     /// B3. Bob then computes 𝑆 = 𝑁^𝑤 + 𝑌
     /// B4. Bob checks 𝑆 == 𝑇
-    fn spake2_test() {
+    fn zkps_spake2_test() {
         // password.
         let w = 7;
         let clockcurve = clockcurve::ClockCurve::default();

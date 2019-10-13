@@ -20,17 +20,16 @@
   - [x] ClockCurve
 - [x] Protocols
   - [x] ECDH
-  - [x] SPAKE2
   - [ ] Shamir Secret Sharing
+- [ ] Signatures
+  - [ ] ECDSA
+  - [ ] Schnorr
 - [x] SubGroups
   - [x] Cofactor
   - [x] SubGroup Order
   - [x] Low Order Attack
-- [ ] Signatures
-  - [ ] ECDSA
-  - [ ] Schnorr
-- [ ] Multi-Party Computation
-- [ ] Zero-Knowledge
+- [x] Zero-Knowledge Proofs
+  - [x] SPAKE2
 
 **This is not a library suitable for production.**
 
