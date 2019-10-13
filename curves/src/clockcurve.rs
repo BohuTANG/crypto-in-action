@@ -16,6 +16,7 @@ pub struct Point {
 pub struct ClockCurve {
     pub b: i8,
     pub base: Point,
+    pub neutral: Point,
     pub primer: i8,
     pub field: field::Field,
 }
@@ -26,13 +27,14 @@ impl Default for ClockCurve {
             b: 1,
             primer: 31,
             base: Point { x: 2, y: 20 },
+            neutral: Point { x: 0, y: 1 },
             field: field::Field::new(31),
         }
     }
 }
 
 impl ClockCurve {
-    ///  Returns the sum of (x1,y1) and (x2,y2).
+    /// Returns the sum of (x1,y1) and (x2,y2).
     ///
     /// ```text
     /// x^2 + y^2 = 1 addtion formual:
@@ -63,7 +65,7 @@ impl ClockCurve {
         Point { x: x3, y: y3 }
     }
 
-    ///  Returns the sum of (x1,y1) and (x2,-y2).
+    /// Returns the sum of (x1,y1) and (x2,-y2).
     ///
     /// # Examples
     ///
@@ -82,7 +84,7 @@ impl ClockCurve {
         self.scalar_add(p1, self.point_neg(p2))
     }
 
-    ///  Returns the neg(x1,y1) = (-x1,y1).
+    /// Returns the neg(x1,y1) = (-x1,y1).
     ///
     /// # Examples
     ///
@@ -103,7 +105,7 @@ impl ClockCurve {
         }
     }
 
-    ///  Returns k*(x1,y1) where k is interge .
+    /// Returns k*(x1,y1) where k is interge .
     ///
     /// # Examples
     ///
@@ -132,7 +134,7 @@ impl ClockCurve {
         rp
     }
 
-    ///  Returns the sum of (x1,y1) and (x1,y1).
+    /// Returns the sum of (x1,y1) and (x1,y1).
     ///
     /// # Examples
     ///
@@ -150,7 +152,7 @@ impl ClockCurve {
         self.scalar_add(p, p)
     }
 
-    ///  Returns k*(base point) where k is integer.
+    /// Returns k*(base point) where k is integer.
     ///
     /// # Examples
     ///

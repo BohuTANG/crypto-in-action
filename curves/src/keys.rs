@@ -10,7 +10,7 @@ pub struct PublicKey {
 }
 
 impl PublicKey {
-    ///  Returns the serialize format of the public key.
+    /// Returns the serialize format of the public key.
     /// ```text
     /// [0] -- x
     /// [1] -- y
@@ -56,7 +56,7 @@ impl PrivateKey {
         self.publickey
     }
 
-    ///  Returns the serialize format of the private key.
+    /// Returns the serialize format of the private key.
     /// ```text
     /// [0] -- null byte
     /// [1] -- key byte

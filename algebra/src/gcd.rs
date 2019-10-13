@@ -51,18 +51,18 @@ pub fn gcd(mut a: i8, mut b: i8) -> i8 {
 /// ```
 ///
 pub fn xgcd(a: i8, b: i8) -> (i8, i8, i8) {
-    let (mut sj, mut sj_old) = (0, 1);
-    let (mut tj, mut tj_old) = (1, 0);
-    let (mut rj, mut rj_old) = (b, a);
+    let (mut sj, mut sj_last) = (0, 1);
+    let (mut tj, mut tj_last) = (1, 0);
+    let (mut rj, mut rj_last) = (b, a);
 
     while rj != 0 {
-        let quotient = rj_old / rj;
-        rj_old -= quotient * rj;
-        sj_old -= quotient * sj;
-        tj_old -= quotient * tj;
-        mem::swap(&mut rj, &mut rj_old);
-        mem::swap(&mut sj, &mut sj_old);
-        mem::swap(&mut tj, &mut tj_old);
+        let quotient = rj_last / rj;
+        rj_last -= quotient * rj;
+        sj_last -= quotient * sj;
+        tj_last -= quotient * tj;
+        mem::swap(&mut rj, &mut rj_last);
+        mem::swap(&mut sj, &mut sj_last);
+        mem::swap(&mut tj, &mut tj_last);
     }
-    (rj_old, sj_old, tj_old) // (gcd, coeff_a, coeff_b)
+    (rj_last, sj_last, tj_last) // (gcd, coeff_a, coeff_b)
 }

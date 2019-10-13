@@ -36,13 +36,59 @@ impl SubGroup {
         }
     }
 
+    /// Returns k*(subgroup base point) where k is integer.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use curves::clockcurve;
+    /// use subgroups::subgroup;
+    ///
+    /// fn main() {
+    ///     let g = clockcurve::Point { x: 1, y: 0 };
+    ///     let sub = subgroup::SubGroup::new(g);
+    ///     let p = sub.scalar_basemul(8);
+    ///     println!("{:?}", p);
+    /// }
+    /// ```
     pub fn scalar_basemul(&self, a: i8) -> clockcurve::Point {
         self.curve.scalar_mul(self.basepoint, a)
     }
+
+    /// Returns all points of the subgroup.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use curves::clockcurve;
+    /// use subgroups::subgroup;
+    ///
+    /// fn main() {
+    ///     let g = clockcurve::Point { x: 1, y: 0 };
+    ///     let sub = subgroup::SubGroup::new(g);
+    ///     let points = sub.points();
+    ///     println!("{:?}", points);
+    /// }
+    /// ```
     pub fn points(&self) -> Vec<clockcurve::Point> {
         self.points.clone()
     }
 
+    /// Returns the order of the subgroup.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use curves::clockcurve;
+    /// use subgroups::subgroup;
+    ///
+    /// fn main() {
+    ///     let g = clockcurve::Point { x: 1, y: 0 };
+    ///     let sub = subgroup::SubGroup::new(g);
+    ///     let order = sub.order();
+    ///     println!("{:?}", order);
+    /// }
+    /// ```
     pub fn order(&self) -> i8 {
         self.points.len() as i8
     }

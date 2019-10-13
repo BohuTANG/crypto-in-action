@@ -3,7 +3,7 @@
 
 use crate::gcd;
 
-///  Computes two numbers sum in modulo arithmetic.
+/// Computes two numbers sum in modulo arithmetic.
 ///
 /// ```text
 /// a + b (mod m)
@@ -30,7 +30,7 @@ pub fn mod_add(a: i8, b: i8, m: i8) -> i8 {
     }
 }
 
-///  Computes two numbers subtract in modulo arithmetic.
+/// Computes two numbers subtract in modulo arithmetic.
 ///
 /// ```text
 /// a - b (mod m)
@@ -50,7 +50,7 @@ pub fn mod_sub(a: i8, b: i8, m: i8) -> i8 {
     mod_add(a, -b, m)
 }
 
-///  Computes two numbers product in modulo arithmetic.
+/// Computes two numbers product in modulo arithmetic.
 ///
 /// ```text
 /// a * b (mod m)
@@ -75,7 +75,7 @@ pub fn mod_mul(a: i8, b: i8, m: i8) -> i8 {
     res
 }
 
-///  Computes two numbers division in modulo arithmetic.
+/// Computes two numbers division in modulo arithmetic.
 ///
 /// ```text
 /// a / b (mod m)
@@ -96,7 +96,7 @@ pub fn mod_div(a: i8, b: i8, m: i8) -> i8 {
     mod_mul(a, inv, m)
 }
 
-///  Computes the inverse of x in modulo arithmetic.
+/// Computes the inverse of x in modulo arithmetic.
 ///
 /// ```text
 /// x = a ^ -1 (mod m)
@@ -126,7 +126,7 @@ pub fn mod_inv(a: i8, m: i8) -> i8 {
     (x + m) % m
 }
 
-///  Computes exponention in modulo arithmetic.
+/// Computes exponention in modulo arithmetic.
 ///
 /// ```text
 /// a ^ b (mod m)

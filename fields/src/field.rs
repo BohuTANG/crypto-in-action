@@ -14,7 +14,7 @@ impl Field {
         Field { primer: p }
     }
 
-    ///  Computes two numbers sum in finite field.
+    /// Computes two numbers sum in finite field.
     ///
     /// ```text
     /// a + b (mod primer)
@@ -34,7 +34,7 @@ impl Field {
         arith::mod_add(a, b, self.primer)
     }
 
-    ///  Computes two numbers sum in finite field.
+    /// Computes two numbers sum in finite field.
     ///
     /// ```text
     /// a - b (mod primer)
@@ -54,7 +54,7 @@ impl Field {
         arith::mod_sub(a, b, self.primer)
     }
 
-    ///  Computes two numbers product in finite field.
+    /// Computes two numbers product in finite field.
     ///
     /// ```text
     /// a * b (mod primer)
@@ -74,7 +74,7 @@ impl Field {
         arith::mod_mul(a, b, self.primer)
     }
 
-    ///  Computes exponention in finite field.
+    /// Computes exponention in finite field.
     ///
     /// ```text
     /// a ^ b (mod m)
@@ -94,7 +94,7 @@ impl Field {
         arith::mod_exp(base, exponent, self.primer)
     }
 
-    ///  Computes the square root (mod primer) of 'a'.
+    /// Computes the square root (mod primer) of 'a'.
     ///
     /// ```text
     /// Returns None if has no square root.
@@ -134,7 +134,7 @@ impl Field {
         }
     }
 
-    ///  Computes the Legendre symbol a|p using Euler's criterion.
+    /// Computes the Legendre symbol a|p using Euler's criterion.
     ///
     /// ```text
     /// Returns 1 if a has a square root modulo p, -1 otherwise.
