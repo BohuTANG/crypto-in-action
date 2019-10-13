@@ -15,9 +15,9 @@ pub struct Point {
 #[derive(Debug, Copy, Clone)]
 pub struct ClockCurve {
     pub b: i8,
+    pub prime: i8,
     pub base: Point,
-    pub neutral: Point,
-    pub primer: i8,
+    pub infinity: Point,
     pub field: field::Field,
 }
 
@@ -25,9 +25,9 @@ impl Default for ClockCurve {
     fn default() -> Self {
         ClockCurve {
             b: 1,
-            primer: 31,
+            prime: 31,
             base: Point { x: 2, y: 20 },
-            neutral: Point { x: 0, y: 1 },
+            infinity: Point { x: 0, y: 1 },
             field: field::Field::new(31),
         }
     }
@@ -100,7 +100,7 @@ impl ClockCurve {
     /// ```
     pub fn point_neg(self, p1: Point) -> Point {
         Point {
-            x: self.field.sub(self.primer, p1.x),
+            x: self.field.sub(self.prime, p1.x),
             y: p1.y,
         }
     }
@@ -139,8 +139,7 @@ impl ClockCurve {
     /// }
     /// ```
     pub fn scalar_mul(self, p: Point, k: i8) -> Point {
-        assert!(k != 0);
-        let mut r0 = self.neutral;
+        let mut r0 = self.infinity;
         let mut r1 = Point { x: p.x, y: p.y };
 
         let mut bits = 0;
@@ -215,7 +214,7 @@ impl ClockCurve {
     /// ```
     pub fn y(self, x: i8) -> Option<i8> {
         let xx = self.field.mul(x, x);
-        let yy = self.primer - xx + self.b;
+        let yy = self.prime - xx + self.b;
         self.field.sqrt(yy)
     }
 }

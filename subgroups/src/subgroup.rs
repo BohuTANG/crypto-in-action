@@ -27,7 +27,7 @@ impl SubGroup {
 
     fn generate(&mut self) {
         self.points.push(self.basepoint);
-        for i in 2..=self.curve.primer + 1 {
+        for i in 2..=self.curve.prime + 1 {
             let p = self.curve.scalar_mul(self.basepoint, i);
             if p == self.basepoint {
                 break;

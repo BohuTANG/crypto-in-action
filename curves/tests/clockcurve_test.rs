@@ -109,6 +109,12 @@ pub mod tests {
             let p3 = curve.scalar_basemul(33);
             assert_eq!(p3, clockcurve::Point { x: 2, y: 20 });
         }
+
+        // Mul 0.
+        {
+            let p3 = curve.scalar_basemul(0);
+            assert_eq!(p3, curve.infinity);
+        }
     }
 
     #[test]
@@ -208,7 +214,7 @@ pub mod tests {
             let p3 = clockcurve.y(i);
             if p3 != None {
                 println!("({},{})", i, p3.unwrap());
-                println!("({},{})", i, clockcurve.primer - p3.unwrap());
+                println!("({},{})", i, clockcurve.prime - p3.unwrap());
             }
         }
         /*
