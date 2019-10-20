@@ -8,6 +8,51 @@ pub mod tests {
     use subgroups::subgroup;
 
     #[test]
+    fn subgroups_subgroup_default_test() {
+        let sub = subgroup::SubGroup::default();
+        let points = sub.points();
+        for point in points.iter() {
+            println!("{:?}", point);
+        }
+        /*
+        Point { x: 2, y: 20 }
+        Point { x: 18, y: 24 }
+        Point { x: 5, y: 10 }
+        Point { x: 27, y: 4 }
+        Point { x: 21, y: 26 }
+        Point { x: 7, y: 13 }
+        Point { x: 11, y: 29 }
+        Point { x: 30, y: 0 }
+        Point { x: 11, y: 2 }
+        Point { x: 7, y: 18 }
+        Point { x: 21, y: 5 }
+        Point { x: 27, y: 27 }
+        Point { x: 5, y: 21 }
+        Point { x: 18, y: 7 }
+        Point { x: 2, y: 11 }
+        Point { x: 0, y: 30 }
+        Point { x: 29, y: 11 }
+        Point { x: 13, y: 7 }
+        Point { x: 26, y: 21 }
+        Point { x: 4, y: 27 }
+        Point { x: 10, y: 5 }
+        Point { x: 24, y: 18 }
+        Point { x: 20, y: 2 }
+        Point { x: 1, y: 0 }
+        Point { x: 20, y: 29 }
+        Point { x: 24, y: 13 }
+        Point { x: 10, y: 26 }
+        Point { x: 4, y: 4 }
+        Point { x: 26, y: 10 }
+        Point { x: 13, y: 24 }
+        Point { x: 29, y: 20 }
+        Point { x: 0, y: 1 }
+                */
+
+        assert_eq!(sub.order(), 32);
+    }
+
+    #[test]
     fn subgroups_subgroup_order4_test() {
         let g = clockcurve::Point { x: 1, y: 0 };
         let sub = subgroup::SubGroup::new(g);

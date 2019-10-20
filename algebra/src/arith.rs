@@ -69,8 +69,7 @@ pub fn mod_sub(a: i8, b: i8, m: i8) -> i8 {
 pub fn mod_mul(a: i8, b: i8, m: i8) -> i8 {
     let mut res = 0;
     for _ in 1..=b {
-        res += a;
-        res %= m;
+        res = mod_add(a, res, m);
     }
     res
 }

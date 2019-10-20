@@ -3,36 +3,27 @@
 
 use curves::clockcurve;
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub struct SubGroup {
     pub infinity: clockcurve::Point,
     pub basepoint: clockcurve::Point,
-    pub points: Vec<clockcurve::Point>,
     pub curve: clockcurve::ClockCurve,
+}
+
+impl Default for SubGroup {
+    fn default() -> Self {
+        SubGroup::new(clockcurve::Point { x: 2, y: 20 })
+    }
 }
 
 impl SubGroup {
     pub fn new(g: clockcurve::Point) -> Self {
         let curv = clockcurve::ClockCurve::default();
         assert!(curv.is_on_curve(g));
-        let mut sub = SubGroup {
+        SubGroup {
             infinity: clockcurve::Point { x: 0, y: 1 },
             basepoint: g,
-            points: Vec::new(),
             curve: curv,
-        };
-        sub.generate();
-        sub
-    }
-
-    fn generate(&mut self) {
-        self.points.push(self.basepoint);
-        for i in 2..=self.curve.prime + 1 {
-            let p = self.curve.scalar_mul(self.basepoint, i);
-            if p == self.basepoint {
-                break;
-            }
-            self.points.push(p);
         }
     }
 
@@ -71,7 +62,16 @@ impl SubGroup {
     /// }
     /// ```
     pub fn points(&self) -> Vec<clockcurve::Point> {
-        self.points.clone()
+        let mut points: Vec<clockcurve::Point> = Vec::new();
+        points.push(self.basepoint);
+        for i in 2..=self.curve.prime + 1 {
+            let p = self.curve.scalar_mul(self.basepoint, i);
+            if p == self.basepoint {
+                break;
+            }
+            points.push(p);
+        }
+        points.clone()
     }
 
     /// Returns the order of the subgroup.
@@ -90,6 +90,16 @@ impl SubGroup {
     /// }
     /// ```
     pub fn order(&self) -> i8 {
-        self.points.len() as i8
+        let mut points: Vec<clockcurve::Point> = Vec::new();
+        points.push(self.basepoint);
+        for i in 2..=self.curve.prime + 1 {
+            let p = self.curve.scalar_mul(self.basepoint, i);
+            if p == self.basepoint {
+                break;
+            }
+            points.push(p);
+        }
+
+        points.len() as i8
     }
 }

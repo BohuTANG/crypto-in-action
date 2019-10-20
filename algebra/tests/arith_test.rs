@@ -50,6 +50,16 @@ pub mod tests {
             let x = arith::mod_div(4, 14, 37);
             assert_eq!(x, 32);
         }
+
+        {
+            let x = arith::mod_div(1, 14, 37);
+            assert_eq!(x, 8);
+        }
+
+        {
+            let x = arith::mod_div(1, 23, 37);
+            assert_eq!(x, 29);
+        }
     }
 
     #[test]

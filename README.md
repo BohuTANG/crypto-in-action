@@ -22,7 +22,7 @@
   - [x] ECDH
   - [ ] Shamir Secret Sharing
 - [ ] Signatures
-  - [ ] ECDSA
+  - [x] ECDSA
   - [ ] Schnorr
 - [x] SubGroups
   - [x] Cofactor
