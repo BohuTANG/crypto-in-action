@@ -2,3 +2,4 @@
 
 # Signatures
   - [x] ECDSA
+  - [x] ECDSA Nonce Reuse Issue

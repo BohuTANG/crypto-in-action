@@ -27,6 +27,21 @@ impl ECDSA {
         self.group.curve.scalar_basemul(pk)
     }
 
+    /// Returns signature with the param(message, private, random nonce).
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use signatures::ecdsa;
+    ///
+    /// fn main() {
+    ///    let message = 10;
+    ///    let private = 5;
+    ///    let randomk = 7;
+    ///    let ecd = ecdsa::ECDSA::new();
+    ///    let (r, s) = ecd.sign(message, private, randomk);
+    ///    println!("signature: r:{},s:{}", r, s);
+    /// }
     pub fn sign(self, message: i8, private: i8, randomk: i8) -> (i8, i8) {
         let m = self.group.order();
 
@@ -47,6 +62,24 @@ impl ECDSA {
         (r, s)
     }
 
+    /// Returns signature with the param(message, private, random nonce).
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use signatures::ecdsa;
+    ///
+    /// fn main() {
+    ///    let message = 10;
+    ///    let private = 5;
+    ///    let randomk = 7;
+    ///    let ecd = ecdsa::ECDSA::new();
+    ///    let (r, s) = ecd.sign(message, private, randomk);
+    ///    println!("signature: r:{},s:{}", r, s);
+    ///    let pubkey = ecd.pubkey(private);
+    ///    let verify = ecd.verify(message, pubkey, r, s);
+    ///    println!("verify result:{}", verify);
+    /// }
     pub fn verify(self, message: i8, pubkey: clockcurve::Point, r: i8, s: i8) -> bool {
         let m = self.group.order();
 

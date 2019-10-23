@@ -17,17 +17,17 @@
   - [x] Square Root
   - [x] Legendre Symbol
 - [x] Elliptic Curves
-  - [x] ClockCurve
-- [x] Protocols
-  - [x] ECDH
-  - [ ] Shamir Secret Sharing
-- [ ] Signatures
-  - [x] ECDSA
-  - [ ] Schnorr
+  - [x] ClockCurve (x^2 + y^2 = 1)
 - [x] SubGroups
   - [x] Cofactor
   - [x] SubGroup Order
   - [x] Low Order Attack
+- [x] Signatures
+  - [x] ECDSA
+  - [x] ECDSA Key Leakage From Nonce Reuse
+  - [ ] Schnorr
+- [x] Protocols
+  - [x] ECDH
 - [x] Zero-Knowledge Proofs
   - [x] SPAKE2
 
