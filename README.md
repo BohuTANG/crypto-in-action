@@ -22,12 +22,14 @@
   - [x] Cofactor
   - [x] SubGroup Order
   - [x] Low Order Attack
-- [x] Signatures
-  - [x] ECDSA
-  - [x] ECDSA Key Leakage From Nonce Reuse
-  - [ ] Schnorr
 - [x] Protocols
   - [x] ECDH
+- [x] Signatures
+  - [x] ECDSA Signature
+  - [x] ECDSA Key Leakage From Nonce Reuse
+  - [x] Schnorr Signature
+  - [x] Schnorr Batch Verify
+  - [x] Schnorr Key Leakage From Nonce Reuse
 - [x] Zero-Knowledge Proofs
   - [x] SPAKE2
 

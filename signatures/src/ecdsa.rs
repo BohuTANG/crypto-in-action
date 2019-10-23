@@ -23,8 +23,12 @@ impl ECDSA {
         }
     }
 
-    pub fn pubkey(self, pk: i8) -> clockcurve::Point {
+    pub fn pubkey(&self, pk: i8) -> clockcurve::Point {
         self.group.curve.scalar_basemul(pk)
+    }
+
+    pub fn hash(&self, message: i8) -> i8 {
+        message
     }
 
     /// Returns signature with the param(message, private, random nonce).
@@ -42,11 +46,11 @@ impl ECDSA {
     ///    let (r, s) = ecd.sign(message, private, randomk);
     ///    println!("signature: r:{},s:{}", r, s);
     /// }
-    pub fn sign(self, message: i8, private: i8, randomk: i8) -> (i8, i8) {
+    pub fn sign(&self, message: i8, private: i8, randomk: i8) -> (i8, i8) {
         let m = self.group.order();
 
-        // z = hash(message), we use the raw message as hash.
-        let z = message;
+        // z = hash(message)
+        let z = self.hash(message);
 
         // r = (k*G).x
         let r = self.group.scalar_basemul(randomk).x;
@@ -62,7 +66,7 @@ impl ECDSA {
         (r, s)
     }
 
-    /// Returns signature with the param(message, private, random nonce).
+    /// Returns verify result.
     ///
     /// # Examples
     ///
@@ -80,11 +84,11 @@ impl ECDSA {
     ///    let verify = ecd.verify(message, pubkey, r, s);
     ///    println!("verify result:{}", verify);
     /// }
-    pub fn verify(self, message: i8, pubkey: clockcurve::Point, r: i8, s: i8) -> bool {
+    pub fn verify(&self, message: i8, pubkey: clockcurve::Point, r: i8, s: i8) -> bool {
         let m = self.group.order();
 
-        // z = hash(message), we use the raw message as hash.
-        let z = message;
+        // z = hash(message)
+        let z = self.hash(message);
 
         // sinverse = 1/s
         let sinverse = arith::mod_div(1, s, m);
